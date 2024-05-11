@@ -31,7 +31,6 @@ async def get_question_by_id(*,
 async def post_question(*,
                         question: Question,
                         session: AsyncSession = Depends(get_session)):
-    question.id = await session.generate_primary(Question)
     session.add(question)
     await session.commit()
     session.refresh(question)

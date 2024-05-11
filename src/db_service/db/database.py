@@ -24,48 +24,10 @@ async def init_db():
 
     async with async_session() as session:
         for data in question_data:
-            print(f"#######this is the data[0]: {data[0]}##########")
-            db_question = Question.model_validate(data[0])
-            print(f"#########{db_question}########")
-                #here to be improved to handle partial valid data
-            db_answ = [Answer.model_validate(answ) for answ in data[1]]
-                #here to be validated for presence of true answ
-            if db_answ != []:
-                session.add(db_question)
-                await session.commit()
-                session.refresh(db_answ) #here
-            for answ in db_answ:
-                answ.question_id  = db_question.id
-                session.add(db_answ)
-            await session.commit()
+            db_question = Question(**(data[0]))
+            answers = [Answer(**answ) for answ in data[1]]
+            db_question.answers = answers
 
-     
-     
-     
-     
-            # try:
-            #     db_question = Question.model_validate(data[0])
-            #     print("#################")
-            #     print("#################")
-            #     print("#################")
-            #     print("#################")
-            #     print("#################")
-            #     print("#################")
-            #     print("#################")
-            #     print("#################")
-            #     print(f"#########{db_question}########")
-            #     #here to be improved to handle partial valid data
-            #     db_answ = [Answer.model_validate(answ) for answ in data[1]]
-            #     #here to be validated for presence of true answ
-            #     if db_answ != []:
-            #         session.add(db_question)
-            #         await session.commit()
-            #         session.refresh(db_answ) #here
-            #     for answ in db_answ:
-            #         answ.question_id  = db_question.id
-            #         session.add(db_answ)
-            #     await session.commit()
-            # except Exception as e:
-            #     print(f"error during insertion {e}")
-            #     continue
+            session.add(db_question)
+            await session.commit()
 
