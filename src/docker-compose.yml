@@ -23,6 +23,7 @@ services:
     command: bash -c "make"
     ports:
       - 8001:8000
+    
 
   educ_nginx_service:
     build: ./nginx_service

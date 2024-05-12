@@ -1,10 +1,16 @@
 async function fetchQuestionsAndAnswers() {
     const container = document.getElementById('qa-container');
-    container.innerHTML = '';  // Clear previous content
+    container.innerHTML = '';
 
     try {
         // Fetch all questions
-        const questionsResponse = await fetch('http://localhost:8001/questions');
+        const questionsResponse = await fetch('http://educ_db_service:8000/data/questions');
+        console("i was her too")
+        console("0000000000000000000000000")
+        console("0000000000000000000000000")
+        console("0000000000000000000000000")
+        console("0000000000000000000000000")
+        console("0000000000000000000000000")
         if (!questionsResponse.ok) throw new Error('Failed to fetch questions');
         const questions = await questionsResponse.json();
 
@@ -14,7 +20,7 @@ async function fetchQuestionsAndAnswers() {
             questionDiv.innerHTML = `<h2>${question.text}</h2>`;
 
             // Fetch answers for the question
-            const answersResponse = await fetch(`http://localhost:8001/answers/${question.id}`);
+            const answersResponse = await fetch(`http://educ_db_service:8000/data/answers/${question.id}`);
             if (!answersResponse.ok) throw new Error('Failed to fetch answers');
             const answers = await answersResponse.json();
 
