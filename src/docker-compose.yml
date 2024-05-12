@@ -1,28 +1,28 @@
 version: '3'
 services:
-  # educ_postgres_service:
-  #   image: postgres:16
-  #   container_name: educ_postgres_service
-  #   env_file:
-  #     - .env
-  #   restart: on-failure
-  #   ports:
-  #     - 5432:5432
+  educ_postgres_service:
+    image: postgres:16
+    container_name: educ_postgres_service
+    env_file:
+      - .env
+    restart: on-failure
+    ports:
+      - 5432:5432
 
-  # educ_db_service:
-  #   build: ./db_service
-  #   container_name: educ_db_service
-  #   working_dir: /app
-  #   volumes:
-  #     - ./db_service:/app
-  #   depends_on:
-  #     - educ_postgres_service
-  #   env_file:
-  #     - .env
-  #   restart: on-failure
-  #   command: bash -c "make"
-  #   ports:
-  #     - 8001:8000
+  educ_db_service:
+    build: ./db_service
+    container_name: educ_db_service
+    working_dir: /app
+    volumes:
+      - ./db_service:/app
+    depends_on:
+      - educ_postgres_service
+    env_file:
+      - .env
+    restart: on-failure
+    command: bash -c "make"
+    ports:
+      - 8001:8000
 
   educ_nginx_service:
     build: ./nginx_service
