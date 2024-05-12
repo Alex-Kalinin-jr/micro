@@ -9,14 +9,19 @@ from db.models import Question, Answer
 router = APIRouter(prefix="/data")
 
 
-@router.get("", status_code=200)
+@router.get("/questions", status_code=200)
 async def get_all_questions(*, session: AsyncSession = Depends(get_session)):
+    questions = await session.exec(select(Question))
+    return [question.model_dump() for question in questions]
+
+@router.get("/answers", status_code=200)
+async def get_all_answers(*, session: AsyncSession = Depends(get_session)):
     answers = await session.exec(select(Question))
-    return [answ.model_dump() for answ in answers]
+    return [answer.model_dump() for answer in answers]
 
 
-@router.get("/{id}", status_code=200)
-async def get_question_by_id(*, 
+@router.get("/answers/{id}", status_code=200)
+async def get_answers_by_question_id(*, 
                              id: int,
                              session: AsyncSession = Depends(get_session)):
     answers = await session.exec(select(Answer).where(Answer.question_id == id))
@@ -27,7 +32,7 @@ async def get_question_by_id(*,
     return [answ.model_dump(round_trip=True) for answ in answers]
 
 
-@router.post("", status_code=201, response_model=Question)
+@router.post("/questions", status_code=201, response_model=Question)
 async def post_question(*,
                         question: Question,
                         session: AsyncSession = Depends(get_session)):
@@ -36,8 +41,9 @@ async def post_question(*,
     session.refresh(question)
     return question
 
-@router.post("/{id}", response_model=Question)
-async def post_answers(*,
+#there the validation must be prepared. Answers must have at least one right answer and their count must be more than one
+@router.post("/answers/{id}", response_model=Question)
+async def post_answers_for_question(*,
                        id: int,
                        answers: List[Answer],
                        session: AsyncSession = Depends(get_session)):

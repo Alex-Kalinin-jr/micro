@@ -22,4 +22,13 @@ services:
     restart: on-failure
     command: bash -c "make"
     ports:
-      - 8001:8000 
+      - 8001:8000
+
+  educ_nginx_service:
+    build: ./nginx_service
+    container_name: nginx_service
+    env_file:
+      - .env
+    restart: on-failure
+    ports:
+       - 8080:80
