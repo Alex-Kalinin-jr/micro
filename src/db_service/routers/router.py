@@ -27,11 +27,24 @@ async def get_question_by_id(*,
     return [answ.model_dump(round_trip=True) for answ in answers]
 
 
-@router.post("", response_model=Question)
+@router.post("", status_code=201, response_model=Question)
 async def post_question(*,
                         question: Question,
                         session: AsyncSession = Depends(get_session)):
     session.add(question)
+    await session.commit()
+    session.refresh(question)
+    return question
+
+@router.post("/{id}", response_model=Question)
+async def post_answers(*,
+                       id: int,
+                       answers: List[Answer],
+                       session: AsyncSession = Depends(get_session)):
+    question = await session.get(Question, id)
+    for answ in answers:
+        answ.question_id = question.id
+        session.add(answ)
     await session.commit()
     session.refresh(question)
     return question

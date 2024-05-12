@@ -24,10 +24,15 @@ async def init_db():
 
     async with async_session() as session:
         for data in question_data:
-            db_question = Question(**(data[0]))
-            answers = [Answer(**answ) for answ in data[1]]
-            db_question.answers = answers
+            try:
+                db_question = Question(**(data[0]))
+                answers = [Answer(**answ) for answ in data[1]]
+                db_question.answers = answers
 
-            session.add(db_question)
-            await session.commit()
+                session.add(db_question)
+                await session.commit()
+            except Exception as e:
+                print(f"EXCEPTION: {e}")
+                session.rollback()
+                continue
 
