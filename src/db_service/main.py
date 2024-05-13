@@ -8,7 +8,7 @@ from routers.router import router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await init_db()
+    # await init_db()
     yield
 
 app = FastAPI(
@@ -41,3 +41,6 @@ if __name__ == "__main__":
         port=8000,
         reload=True
     )
+
+# https://testdriven.io/blog/fastapi-sqlmodel/
+# the most powerful article for async alembic
