@@ -1,35 +1,68 @@
 async function fetchQuestionsAndAnswers() {
-    const container = document.getElementById('qa-container');
-    container.innerHTML = '';
+    const questionElement = document.getElementById('question');
+    const answersElement = document.getElementById('answers');
+    const feedbackElement = document.getElementById('feedback');
+    const nextButton = document.getElementById('next-btn');
+
+    let currentQuestionIndex = 0;
+    let questions = [];
 
     try {
         const questionsResponse = await fetch('/data/questions');
         if (!questionsResponse.ok) throw new Error('Failed to fetch questions');
-        const questions = await questionsResponse.json();
-
-        for (const question of questions) {
-            const questionDiv = document.createElement('div');
-            questionDiv.innerHTML = `<h2>${question.text}</h2>`;
-
-            const answersResponse = await fetch(`/data/answers/${question.id}`);
-            if (!answersResponse.ok) throw new Error('Failed to fetch answers');
-            const answers = await answersResponse.json();
-
-            const answersList = document.createElement('ul');
-            for (const answer of answers) {
-                const answerItem = document.createElement('li');
-                answerItem.textContent = answer.data;
-                answersList.appendChild(answerItem);
-            }
-
-            questionDiv.appendChild(answersList);
-            container.appendChild(questionDiv);
-        }
+        questions = await questionsResponse.json();
+        displayQuestion();
     } catch (error) {
         console.error('Error:', error);
-        container.innerHTML = '<p>Error loading questions and answers.</p>';
+        questionElement.textContent = 'Error loading questions.';
     }
+
+    function displayQuestion() {
+        const question = questions[currentQuestionIndex];
+        questionElement.textContent = question.text;
+        answersElement.innerHTML = '';
+        feedbackElement.textContent = '';
+        nextButton.style.display = 'none';
+
+        fetch(`/data/answers/${question.id}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to fetch answers');
+                return response.json();
+            })
+            .then(answers => {
+                answers.forEach(answer => {
+                    const answerItem = document.createElement('li');
+                    answerItem.textContent = answer.data;
+                    answerItem.addEventListener('click', () => {
+                        if (answer.is_right) {
+                            feedbackElement.textContent = 'Correct!';
+                        } else {
+                            feedbackElement.textContent = 'Incorrect. Try again.';
+                        }
+                        nextButton.style.display = 'block';
+                    });
+                    answersElement.appendChild(answerItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                answersElement.innerHTML = '<li>Error loading answers.</li>';
+            });
+    }
+
+    nextButton.addEventListener('click', () => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            displayQuestion();
+        } else {
+            questionElement.textContent = 'Quiz completed!';
+            answersElement.innerHTML = '';
+            feedbackElement.textContent = '';
+            nextButton.style.display = 'none';
+        }
+    });
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     async function loadTabContent(tabId) {
