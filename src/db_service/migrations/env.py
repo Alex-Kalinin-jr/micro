@@ -8,7 +8,7 @@ from sqlmodel import SQLModel
 
 from alembic import context
 
-from db.models import *
+from db.models import Question, Answer
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
