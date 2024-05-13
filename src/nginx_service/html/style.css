@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+ul.tabs {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+ul.tabs li {
+    margin-right: 10px;
+}
+
+ul.tabs a {
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    color: #000;
+    cursor: pointer;
+}
+
+ul.tabs a:hover {
+    background-color: #e4e4e4;
+}
+
+ul.tabs a.active {
+    background-color: #fff;
+    border-bottom: 1px solid #fff;
+    cursor: default;
+}
+
+#content {
+    padding: 20px;
+    border: 1px solid #ccc;
+}

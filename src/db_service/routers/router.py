@@ -11,12 +11,6 @@ router = APIRouter(prefix="/data")
 
 @router.get("/questions", status_code=200)
 async def get_all_questions(*, session: AsyncSession = Depends(get_session)):
-    print("###########################")
-    print("###########################")
-    print("###########################")
-    print("###########################")
-    print("###########################")
-    print("i was here")
     questions = await session.exec(select(Question))
     return [question.model_dump() for question in questions]
 
