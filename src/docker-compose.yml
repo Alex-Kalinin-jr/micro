@@ -9,6 +9,7 @@ services:
     ports:
       - 5432:5432
 
+
   educ_db_service:
     build: ./db_service
     container_name: educ_db_service
@@ -33,3 +34,11 @@ services:
     restart: on-failure
     ports:
        - 8080:80
+
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: on-failure
+    ports:
+      - 8081:8080
