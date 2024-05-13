@@ -1,1 +1,15 @@
 # micro
+
+In progress.
+
+You can run, test and wide this app for your purposes.
+
+- Switch to developer branch.
+- adjust your .env files (investigate docker-compose.yml for paths)
+- Run "docker-compose up"
+- test on "localhost:8080"
+
+in containers:
+- db: postgres
+- db_service: async FastAPI + SQLModel
+- nginx_service: ngnix as proxy, pure html+css+js as frontend
