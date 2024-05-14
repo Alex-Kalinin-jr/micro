@@ -1,3 +1,37 @@
+
+async function fetchLinksToGoodArticles() {
+    const articleElement = document.getElementById('linksBlock');
+
+    let links = [];
+
+    try {
+        const linksResponse = await fetch('/data/links');
+        console.log(linksResponse);
+        if (!linksResponse.ok) throw new Error('Failed to fetch links');
+        links = await linksResponse.json();
+        displayArticles();
+    } catch (error) {
+        console.error('Error:', error);
+        articleElement.textContent = 'Error loading articles.';
+    }
+
+    function displayArticles() {
+        links.forEach(link => {
+            console.log(link);
+
+            const explanationItem = document.createElement('li');
+            explanationItem.textContent = link.explanation;
+            articleElement.appendChild(explanationItem);
+            
+            const linkItem = document.createElement('a');
+            linkItem.setAttribute('href', link.data);
+            linkItem.textContent = "jump";
+            articleElement.appendChild(linkItem);
+        });
+    }
+}
+
+
 async function fetchQuestionsAndAnswers() {
     const questionElement = document.getElementById('question');
     const answersElement = document.getElementById('answers');
@@ -79,7 +113,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById('tab1').addEventListener('click', (event) => {
         event.preventDefault();
-        loadTabContent('tab1');
+        loadTabContent('tab1').then(() => {
+            fetchLinksToGoodArticles();
+        });
     });
 
     document.getElementById('tab2').addEventListener('click', (event) => {

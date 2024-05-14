@@ -4,7 +4,7 @@ from typing import Annotated, Optional, List
 from sqlmodel import select
 
 from db.database import get_session, AsyncSession
-from db.models import Question, Answer
+from db.models import Question, Answer, UrlData
 
 router = APIRouter(prefix="/data")
 
@@ -54,3 +54,12 @@ async def post_answers_for_question(*,
     await session.commit()
     session.refresh(question)
     return question
+
+
+@router.get("/links", response_model=List[UrlData])
+async def get_links(*,
+                    session: AsyncSession = Depends(get_session)):
+    print("i was here")
+    links = await session.exec(select(UrlData))
+    links_data = links.all()
+    return [link.model_dump(round_trip=True) for link in links_data]

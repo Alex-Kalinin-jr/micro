@@ -2,13 +2,11 @@ import sys
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from db.database import init_db
 from contextlib import asynccontextmanager
 from routers.router import router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # await init_db()
     yield
 
 app = FastAPI(

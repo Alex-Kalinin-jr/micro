@@ -22,7 +22,7 @@ class Answer(SQLModel, table=True):
     question: Question = Relationship(back_populates="answers")
 
 
-class UrlTable(SQLModel, table=True):
+class UrlData(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True)
     data: str = Field(...)
     explanation: str = Field(...)

@@ -59,3 +59,10 @@ question_data = [
 
     ]
 ]
+
+links_data = [
+    {
+        "data" : "https://testdriven.io/blog/fastapi-sqlmodel/",
+        "explanation" : "Good article for integration async Alembic (initial aquantance with alembic is needed)."
+    }
+]
