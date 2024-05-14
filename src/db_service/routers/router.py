@@ -9,15 +9,37 @@ from db.models import Question, Answer, UrlData
 router = APIRouter(prefix="/data")
 
 
+
+
+
 @router.get("/questions", status_code=200)
 async def get_all_questions(*, session: AsyncSession = Depends(get_session)):
     questions = await session.exec(select(Question))
+
+    if not questions:
+        raise HTTPException(status_code=404, detail="Questions not found")
+    
     return [question.model_dump() for question in questions]
+
 
 @router.get("/answers", status_code=200)
 async def get_all_answers(*, session: AsyncSession = Depends(get_session)):
     answers = await session.exec(select(Question))
+
+    if not answers:
+        raise HTTPException(status_code=404, detail="Answers not found")
+
     return [answer.model_dump() for answer in answers]
+
+
+@router.get("/categories", status_code=200)
+async def get_all_answers(*, session: AsyncSession = Depends(get_session)):
+    categories = await session.exec(select(Question.category).distinct())
+
+    if not categories:
+        raise HTTPException(status_code=404, detail="Categories not found")
+
+    return [category for category in categories]
 
 
 @router.get("/answers/{id}", status_code=200)

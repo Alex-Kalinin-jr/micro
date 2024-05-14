@@ -1,7 +1,6 @@
 FROM nginx:latest
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY ./html/* /var/www/html/
 COPY ./certs /etc/nginx/certs
 
 EXPOSE 80
