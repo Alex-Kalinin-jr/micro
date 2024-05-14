@@ -8,7 +8,6 @@ from conf import DB_URL
 from .models import *
 
 
-
 engine = create_async_engine(DB_URL, echo=True, future=True)
 async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 

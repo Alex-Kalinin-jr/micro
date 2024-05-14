@@ -131,4 +131,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     loadTabContent('tab1');
+    fetchQuestionsAndAnswers();
 });

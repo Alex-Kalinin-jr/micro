@@ -8,6 +8,7 @@ question_data = [
             "text" : "Имеем класс Hero. Hero.id, Hero.name = 'a'.\
                     Какой результат будет При выполнении команд: \
                     session.add(Hero) -> session.commit()->print(hero.name)",
+            "category" : "SQLModel"
             
         },
         [
@@ -26,6 +27,7 @@ question_data = [
         {
             "type" : "text",
             "text" : "Чем отличается select.one() от select.first()?",
+            "category" : "SQLModel"
             
         },
         [
@@ -44,6 +46,7 @@ question_data = [
         {
             "type" : "text",
             "text" : "Определите главное назначение back_populates",
+            "category" : "SQLModel"
             
         },
         [
@@ -57,7 +60,48 @@ question_data = [
             },
         ]
 
-    ]
+    ],
+    [
+        {
+            "type" : "text",
+            "text" : "Какого типа SSL сертификатов не существует",
+            "category" : "security"
+            
+        },
+        [
+            {
+                "data" : "Extended Validation certificates",
+                "is_right" : False
+            },
+            {
+                "data" : "Organization Validated certificates ",
+                "is_right" : False
+            },
+            {
+                "data" : "Domain Validated certificates",
+                "is_right" : False
+            },
+            {
+                "data" : "Wildcard SSL certificates",
+                "is_right" : False
+            },
+            {
+                "data" : "Multi-Domain SSL certificates",
+                "is_right" : False
+            },
+            {
+                "data" : "Unified Communications Certificates",
+                "is_right" : False
+            },
+            {
+                "data" : "Transport Layer certificates",
+                "is_right" : True
+            },
+
+        ]
+
+    ],
+    
 ]
 
 links_data = [

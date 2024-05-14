@@ -9,6 +9,7 @@ class Question(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     type: str = Field(...)
     text: str = Field(...)
+    category: str = Field(...)
 
     answers: list["Answer"] = Relationship(back_populates="question")
 

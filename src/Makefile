@@ -1,3 +1,6 @@
+REVISIONNUMBER=five
+
+
 all: clearnginx cleardb clearpostgres
 
 clearnginx:
@@ -15,6 +18,11 @@ clearpostgres:
 	-docker rm educ_postgres_service
 	-docker rmi educ_postgres_service
 
+migratedb:
+	-docker-compose exec educ_db_service alembic upgrade head
+	-docker-compose exec educ_db_service alembic revision --autogenerate -m "revision_number_$(REVISIONNUMBER)"
+
 filldb:
 	-docker-compose exec educ_db_service alembic upgrade head
 	-docker-compose exec educ_db_service python3 filling_data.py
+
