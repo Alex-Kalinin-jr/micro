@@ -25,7 +25,7 @@ if you want to change your tables:
 - readjust your models (models.py)
 - readjust your data (db_data.py)
 - in main *Makefile* change the number of revision
-- launch ***make migratedb*** then ***make filldb***
+- launch ***make migratedb*** then ***make filldb*** **while app is running!**
 
 
 After the migration you may want to fill app by automatically generated data. 
