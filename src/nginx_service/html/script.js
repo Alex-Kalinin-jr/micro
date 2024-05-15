@@ -29,82 +29,82 @@ async function fetchLinksToGoodArticles() {
 }
 
 
-async function fetchQuestionsAndAnswers() {
-    const questionElement = document.getElementById('question');
-    const answersElement = document.getElementById('answers');
-    const feedbackElement = document.getElementById('feedback');
-    const nextButton = document.getElementById('next-btn');
+// async function fetchQuestionsAndAnswers() {
+//     const questionElement = document.getElementById('question');
+//     const answersElement = document.getElementById('answers');
+//     const feedbackElement = document.getElementById('feedback');
+//     const nextButton = document.getElementById('next-btn');
 
-    if (!questionElement || !answersElement || !feedbackElement || !nextButton) {
-        console.error('Required elements not found in the DOM.');
-        return;
-    }
+//     if (!questionElement || !answersElement || !feedbackElement || !nextButton) {
+//         console.error('Required elements not found in the DOM.');
+//         return;
+//     }
 
-    let currentQuestionIndex = 0;
-    let questions = [];
-    let categories = [];
+//     let currentQuestionIndex = 0;
+//     let questions = [];
+//     let categories = [];
 
-    try {
-        // 
-        const categoryResponse = await fetch('/data/categories');
-        if (!categoryResponse.ok) throw new Error('Failed to fetch categories');
-        categories = await categoryResponse.json();
-        console.log(categories);
-        // 
-        const questionsResponse = await fetch('/data/questions');
-        if (!questionsResponse.ok) throw new Error('Failed to fetch questions');
-        questions = await questionsResponse.json();
-        displayQuestion();
-    } catch (error) {
-        console.error('Error:', error);
-        questionElement.textContent = 'Error loading questions.';
-    }
+//     try {
+//         // 
+//         const categoryResponse = await fetch('/data/categories');
+//         if (!categoryResponse.ok) throw new Error('Failed to fetch categories');
+//         categories = await categoryResponse.json();
+//         console.log(categories);
+//         // 
+//         const questionsResponse = await fetch('/data/questions');
+//         if (!questionsResponse.ok) throw new Error('Failed to fetch questions');
+//         questions = await questionsResponse.json();
+//         displayQuestion();
+//     } catch (error) {
+//         console.error('Error:', error);
+//         questionElement.textContent = 'Error loading questions.';
+//     }
 
-    function displayQuestion() {
-        const question = questions[currentQuestionIndex];
-        questionElement.textContent = question.text;
-        answersElement.innerHTML = '';
-        feedbackElement.textContent = '';
-        nextButton.style.display = 'none';
+//     function displayQuestion() {
+//         const question = questions[currentQuestionIndex];
+//         questionElement.textContent = question.text;
+//         answersElement.innerHTML = '';
+//         feedbackElement.textContent = '';
+//         nextButton.style.display = 'none';
 
-        fetch(`/data/answers/${question.id}`)
-            .then(response => {
-                if (!response.ok) throw new Error('Failed to fetch answers');
-                return response.json();
-            })
-            .then(answers => {
-                answers.forEach(answer => {
-                    const answerItem = document.createElement('li');
-                    answerItem.textContent = answer.data;
-                    answerItem.addEventListener('click', () => {
-                        if (answer.is_right) {
-                            feedbackElement.textContent = 'Correct!';
-                        } else {
-                            feedbackElement.textContent = 'Incorrect. Try again.';
-                        }
-                        nextButton.style.display = 'block';
-                    });
-                    answersElement.appendChild(answerItem);
-                });
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                answersElement.innerHTML = '<li>Error loading answers.</li>';
-            });
-    }
+//         fetch(`/data/answers/${question.id}`)
+//             .then(response => {
+//                 if (!response.ok) throw new Error('Failed to fetch answers');
+//                 return response.json();
+//             })
+//             .then(answers => {
+//                 answers.forEach(answer => {
+//                     const answerItem = document.createElement('li');
+//                     answerItem.textContent = answer.data;
+//                     answerItem.addEventListener('click', () => {
+//                         if (answer.is_right) {
+//                             feedbackElement.textContent = 'Correct!';
+//                         } else {
+//                             feedbackElement.textContent = 'Incorrect. Try again.';
+//                         }
+//                         nextButton.style.display = 'block';
+//                     });
+//                     answersElement.appendChild(answerItem);
+//                 });
+//             })
+//             .catch(error => {
+//                 console.error('Error:', error);
+//                 answersElement.innerHTML = '<li>Error loading answers.</li>';
+//             });
+//     }
 
-    nextButton.addEventListener('click', () => {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
-            displayQuestion();
-        } else {
-            questionElement.textContent = 'Quiz completed!';
-            answersElement.innerHTML = '';
-            feedbackElement.textContent = '';
-            nextButton.style.display = 'none';
-        }
-    });
-}
+//     nextButton.addEventListener('click', () => {
+//         currentQuestionIndex++;
+//         if (currentQuestionIndex < questions.length) {
+//             displayQuestion();
+//         } else {
+//             questionElement.textContent = 'Quiz completed!';
+//             answersElement.innerHTML = '';
+//             feedbackElement.textContent = '';
+//             nextButton.style.display = 'none';
+//         }
+//     });
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('tab1').addEventListener('click', (event) => {
@@ -145,3 +145,111 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     loadTabContent('tab1');
 });
+
+
+
+
+
+
+async function fetchQuestionsAndAnswers() {
+    const questionElement = document.getElementById('question');
+    const answersElement = document.getElementById('answers');
+    const feedbackElement = document.getElementById('feedback');
+    const nextButton = document.getElementById('next-btn');
+    const categoryCombobox = document.getElementById('category-combobox');
+
+    if (!questionElement || !answersElement || !feedbackElement || !nextButton || !categoryCombobox) {
+        console.error('Required elements not found in the DOM.');
+        return;
+    }
+
+    let currentQuestionIndex = 0;
+    let questions = [];
+    let categories = [];
+
+    try {
+        const categoryResponse = await fetch('/data/categories');
+        if (!categoryResponse.ok) throw new Error('Failed to fetch categories');
+        categories = await categoryResponse.json();
+        console.log(categories);
+
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.id;
+            option.textContent = category.name;
+            categoryCombobox.appendChild(option);
+        });
+
+        const questionsResponse = await fetch('/data/questions');
+        if (!questionsResponse.ok) throw new Error('Failed to fetch questions');
+        questions = await questionsResponse.json();
+
+        categoryCombobox.addEventListener('change', () => {
+            currentQuestionIndex = 0;
+            displayQuestion();
+        });
+
+        displayQuestion();
+    } catch (error) {
+        console.error('Error:', error);
+        questionElement.textContent = 'Error loading questions.';
+    }
+
+    function displayQuestion() {
+        const selectedCategoryId = categoryCombobox.value;
+        const filteredQuestions = questions.filter(question => question.category_id === parseInt(selectedCategoryId));
+
+        if (filteredQuestions.length === 0) {
+            questionElement.textContent = 'No questions available for the selected category.';
+            answersElement.innerHTML = '';
+            feedbackElement.textContent = '';
+            nextButton.style.display = 'none';
+            return;
+        }
+
+        const question = filteredQuestions[currentQuestionIndex];
+        questionElement.textContent = question.text;
+        answersElement.innerHTML = '';
+        feedbackElement.textContent = '';
+        nextButton.style.display = 'none';
+
+        fetch(`/data/answers/${question.id}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to fetch answers');
+                return response.json();
+            })
+            .then(answers => {
+                answers.forEach(answer => {
+                    const answerItem = document.createElement('li');
+                    answerItem.textContent = answer.data;
+                    answerItem.addEventListener('click', () => {
+                        if (answer.is_right) {
+                            feedbackElement.textContent = 'Correct!';
+                        } else {
+                            feedbackElement.textContent = 'Incorrect. Try again.';
+                        }
+                        nextButton.style.display = 'block';
+                    });
+                    answersElement.appendChild(answerItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                answersElement.innerHTML = '<li>Error loading answers.</li>';
+            });
+    }
+
+    nextButton.addEventListener('click', () => {
+        currentQuestionIndex++;
+        const selectedCategoryId = categoryCombobox.value;
+        const filteredQuestions = questions.filter(question => question.category_id === parseInt(selectedCategoryId));
+        if (currentQuestionIndex < filteredQuestions.length) {
+            displayQuestion();
+        } else {
+            questionElement.textContent = 'Quiz completed!';
+            answersElement.innerHTML = '';
+            feedbackElement.textContent = '';
+            nextButton.style.display = 'none';
+        }
+    });
+}

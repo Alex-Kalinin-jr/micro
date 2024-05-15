@@ -5,9 +5,9 @@ question_data = [
     [
         {
             "type" : "text",
-            "text" : "Имеем класс Hero. Hero.id, Hero.name = 'a'.\
+            "text" : "Имеем класс Hero c полями:Hero.id,Hero.name = 'Name'. \
                     Какой результат будет При выполнении команд: \
-                    session.add(Hero) -> session.commit()->print(hero.name)",
+                    session.add(Hero) session.commit() print(hero.name)",
             "category" : "SQLModel"
             
         },
@@ -17,7 +17,7 @@ question_data = [
                 "is_right" : True
             },
             {
-                "data" : "test_answer",
+                "data" : "Name",
                 "is_right" : False
             },
         ]
@@ -32,11 +32,11 @@ question_data = [
         },
         [
             {
-                "data" : "one() выдаст рандомный row",
+                "data" : "select.one() выдаст один случайный row",
                 "is_right" : False
             },
             {
-                "data" : "в случае, если несколько, one() выдаст ошибку",
+                "data" : "в случае нескольких row select.one() выдаст ошибку",
                 "is_right" : True
             },
         ]
