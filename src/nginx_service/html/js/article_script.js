@@ -21,7 +21,7 @@ export async function fetchLinksToGoodArticles() {
             
             const linkItem = document.createElement('a');
             linkItem.setAttribute('href', link.data);
-            linkItem.textContent = "jump";
+            linkItem.textContent = "Перейти";
             articleElement.appendChild(linkItem);
         });
     }
