@@ -45,3 +45,15 @@ services:
     restart: on-failure
     ports:
       - 8081:8080
+
+
+  react_service:
+    build: ./react_service
+    container_name: educ_react_service
+    restart: on-failure
+    volumes:
+      - ./react_service:/app
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
