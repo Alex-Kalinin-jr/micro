@@ -9,9 +9,6 @@ from db.models import Question, Answer, UrlData
 router = APIRouter(prefix="/data")
 
 
-
-
-
 @router.get("/questions", status_code=200)
 async def get_all_questions(*, session: AsyncSession = Depends(get_session)):
     questions = await session.exec(select(Question))

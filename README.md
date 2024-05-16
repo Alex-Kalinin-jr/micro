@@ -37,3 +37,15 @@ for that purpose fill lists in db_data.py, then adjust init_db in database.py, a
 ### HTTPS
 Now there are self-made SSL-certificates and apporpriate nginx-configuration. Due to this, the connection *https://localhost* will be insecure. Just go into advanced and follow the site.
 If you want to deploy app in production, change them with CA-certificates and readjust your nginx.conf.
+
+
+### REACT
+There is React frame implemented.
+To start development using React **by yourself** follow theese steps:
+1) Create folder for your service.
+2) Create **Dockerfile** inside this folder with content of **react_service/Dockerfile**
+3) Launch ***docker run -it --rm -v "$PWD":/app:rw react_builder npx create-react-app my-react-app***
+4) In appeared folder **my-react-app** create another **Dockerfile** with content of **my-react-app/Dockerfile**
+5) Launch ***docker build -t react_app_dev --target dev .***
+5) Launch ***docker run --rm -it -p 3000:3000 -v $PWD:/app react_app_dev***
+6) Now you can access your react app from browser on **localhost:3000**

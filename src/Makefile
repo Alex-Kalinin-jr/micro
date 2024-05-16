@@ -4,7 +4,7 @@ all: up
 
 fill: migratedb filldb
 
-clearall: clearnginx cleardb clearpostgres
+clearall: clearnginx cleardb clearpostgres clearreact
 
 
 clearnginx:
@@ -21,6 +21,11 @@ clearpostgres:
 	-docker stop educ_postgres_service
 	-docker rm educ_postgres_service
 	-docker rmi educ_postgres_service
+
+clearreact:
+	-docker stop src_react_service
+	-docker rm educ_react_service
+	-docker rmi educ_react_service
 
 migratedb:
 	-docker-compose exec educ_db_service alembic upgrade head

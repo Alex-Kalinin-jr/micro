@@ -1,12 +1,8 @@
-FROM node:20
+FROM node:20-alpine
 
-WORKDIR /app 
+RUN npm install -g npm@10.8.0
+RUN npm install -g create-react-app
 
-COPY package*.json ./
+WORKDIR /app
 
-RUN npm install
-COPY . .
-
-EXPOSE 3000
-
-ENTRYPOINT ["npm", "start"]
+# docker run -it --rm -v "$PWD":/app:rw react_builder npx create-react-app my-react-app

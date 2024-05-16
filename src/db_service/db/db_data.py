@@ -109,4 +109,8 @@ links_data = [
         "data" : "https://testdriven.io/blog/fastapi-sqlmodel/",
         "explanation" : "Good article for integration async Alembic (initial aquantance with alembic is needed)."
     }
+    {
+        "data" : "https://www.devteds.com/create-react-app-with-docker/",
+        "explanation" : "Good article for understanding how to create and launch react app without node installed on host machine"
+    }
 ]
