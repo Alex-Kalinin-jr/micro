@@ -7,8 +7,10 @@ You can run, test and wide this app for your purposes.
 
 - Switch to developer branch.
 - adjust your .env files (investigate docker-compose.yml for paths)
-- Run "docker-compose up"
+- Run **make up**
+- Run **make filldb**
 - test on "https://localhost"
+- Run **make down**
 
 in containers:
 - db: postgres + alembic for migrations + adminer(server: educ_postgres_service:5432)
