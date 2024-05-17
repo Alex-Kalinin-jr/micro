@@ -17,7 +17,7 @@ export default function App() {
 
         <Route path="/links" component={LinksPage} />
         <Route path="/questions" component={QuestionsPage} />
-        <Route path="/tab3" component={Tab3Page} />
+        {/* <Route path="/tab3" component={Tab3Page} /> */}
       </div>
     </Router>
   );

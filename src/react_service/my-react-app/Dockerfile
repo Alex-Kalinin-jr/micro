@@ -1,22 +1,8 @@
 #DEVELOPMENT STAGE
-FROM node:20 as dev
+FROM node:20
 RUN mkdir /app
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
+EXPOSE 3000
 CMD ["npm", "start"]
-
-#BUILD STAGE
-FROM node:20 as build
-RUN mkdir /app
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm build
-
-#PRODUCTION STAGE
-FROM nginx:alpine as prod
-COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
