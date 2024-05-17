@@ -5,4 +5,6 @@ RUN npm install -g create-react-app
 
 WORKDIR /app
 
+
+# docker build -t react-app-builder .
 # docker run -it --rm -v "$PWD":/app:rw react_builder npx create-react-app my-react-app

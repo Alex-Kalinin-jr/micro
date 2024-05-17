@@ -1,59 +1,53 @@
-# version: '3'
-# services:
-#   educ_postgres_service:
-#     image: postgres:16
-#     container_name: educ_postgres_service
-#     env_file:
-#       - .env
-#     restart: on-failure
-#     ports:
-#       - 5432:5432
+version: '3'
+services:
+  educ_postgres_service:
+    image: postgres:16
+    container_name: educ_postgres_service
+    env_file:
+      - .env
+    restart: on-failure
+    ports:
+      - 5432:5432
 
 
-#   educ_db_service:
-#     build: ./db_service
-#     container_name: educ_db_service
-#     working_dir: /app
-#     volumes:
-#       - ./db_service:/app
-#     depends_on:
-#       - educ_postgres_service
-#     env_file:
-#       - .env
-#     restart: on-failure
-#     command: bash -c "make"
-#     ports:
-#       - 8001:8000
+  educ_db_service:
+    build: ./db_service
+    container_name: educ_db_service
+    working_dir: /app
+    volumes:
+      - ./db_service:/app
+    depends_on:
+      - educ_postgres_service
+    env_file:
+      - .env
+    restart: on-failure
+    command: bash -c "make"
+    ports:
+      - 8001:8000
     
 
-#   educ_nginx_service:
-#     build: ./nginx_service
-#     container_name: nginx_service
-#     env_file:
-#       - .env
-#     restart: on-failure
-#     volumes:
-#       - ./nginx_service/html:/var/www/html
-#     ports:
-#        - 8080:80
-#        - 443:443
+  educ_nginx_service:
+    build: ./nginx_service
+    container_name: nginx_service
+    env_file:
+      - .env
+    restart: on-failure
+    volumes:
+      - ./nginx_service/html:/var/www/html
+    ports:
+       - 8080:80
+       - 443:443
 
 
-#   adminer:
-#     image: adminer
-#     container_name: adminer
-#     restart: on-failure
-#     ports:
-#       - 8081:8080
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: on-failure
+    ports:
+      - 8081:8080
 
 
   react_service:
-    build: ./react_service
-    container_name: educ_react_service
-    restart: on-failure
-    volumes:
-      - ./react_service/my-react-app/:/app/
-    ports:
-      - "3000:3000"
-    stdin_open: true
-    tty: true
+    extends:
+      file: ./react_service/my-react-app/docker-compose.yaml
+      service: app
