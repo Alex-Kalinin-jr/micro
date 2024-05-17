@@ -49,5 +49,5 @@ services:
 
   react_service:
     extends:
-      file: ./react_service/my-react-app/docker-compose.yaml
+      file: ./react_service/app/docker-compose.yaml
       service: app

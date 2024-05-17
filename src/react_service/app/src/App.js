@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import LinksPage from './LinksPage';
 import QuestionsPage from './QuestionsPage';
-import Tab3Page from './Tab3Page';
+// import Tab3Page from './Tab3Page';
 
 export default function App() {
   return (
