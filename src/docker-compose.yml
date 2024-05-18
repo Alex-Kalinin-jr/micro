@@ -47,7 +47,7 @@ services:
       - 8081:8080
 
 
-  react_service:
-    extends:
-      file: ./react_service/app/docker-compose.yaml
-      service: app
+  # react_service:
+  #   extends:
+  #     file: ./react_service/app/docker-compose.yaml
+  #     service: app
