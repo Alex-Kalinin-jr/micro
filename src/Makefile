@@ -1,4 +1,4 @@
-REVISIONNUMBER=one
+REVISIONNUMBER=five
 
 all: up
 
@@ -28,9 +28,9 @@ clearreact:
 	-docker rmi src_react_service
 
 migratedb:
+	-docker-compose exec educ_db_service alembic upgrade head
 	-docker-compose exec educ_db_service alembic revision \
 	--autogenerate -m "revision_number_$(REVISIONNUMBER)"
-	-docker-compose exec educ_db_service alembic upgrade head
 
 filldb:
 	-docker-compose exec educ_db_service alembic upgrade head
