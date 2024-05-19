@@ -15,8 +15,8 @@ Both **pure_html** and **react** versions are frames ready for use. You can read
 For testing service:
 - switch to desired branch
 - run **make up**
-- run **migratedb**
-- run **filldb**
+- run **make migratedb**
+- run **make filldb**
 - test on "https://localhost"
 
 
