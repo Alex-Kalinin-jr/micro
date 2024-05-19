@@ -9,7 +9,6 @@ services:
     ports:
       - 5432:5432
 
-
   educ_db_service:
     build: ./db_service
     container_name: educ_db_service
@@ -25,10 +24,9 @@ services:
     ports:
       - 8001:8000
     
-
   educ_nginx_service:
     build: ./nginx_service
-    container_name: nginx_service
+    container_name: educ_nginx_service
     env_file:
       - .env
     restart: on-failure
@@ -38,7 +36,6 @@ services:
        - 8080:80
        - 443:443
 
-
   adminer:
     image: adminer
     container_name: adminer
@@ -46,8 +43,12 @@ services:
     ports:
       - 8081:8080
 
-
   react_service:
-    extends:
-      file: ./react_service/my_react_app/docker-compose.yaml
-      service: app
+    build: ./react_service/my_react_app
+    container_name: educ_react_service
+    volumes:
+      - ./react_service/my_react_app/:/app
+    ports:
+      - 3000:3000
+    command: npm start
+      
