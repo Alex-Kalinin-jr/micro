@@ -1,4 +1,4 @@
-REVISIONNUMBER=one
+REVISIONNUMBER=this_is_the_test
 
 all: up
 
