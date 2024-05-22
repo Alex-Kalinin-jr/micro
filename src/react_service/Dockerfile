@@ -3,6 +3,10 @@ FROM node:20-alpine
 ARG USER_UID
 ARG USER_GID
 
+RUN addgroup -g $USER_GID usergroup && \
+    adduser -D -u $USER_UID -G usergroup user && \
+    chown -R $USER_UID:$USER_GID /app
+
 WORKDIR /app
 
 RUN npm install -g npm@10.8.0
