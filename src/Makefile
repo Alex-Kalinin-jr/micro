@@ -40,7 +40,7 @@ up:
 	-docker-compose up
 
 upfirsttime:
-	docker build --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g) -t react_builder ./react_service
+	docker build --build-arg DOCKER_USER=$(whoami) -t react_builder ./react_service
 	docker run --rm -v $(PWD)/react_service:/app:rw react_builder
 	rm -rf ./react_service/my_react_app/public ./react_service/my_react_app/src \
 	./react_service/my_react_app/*.json
