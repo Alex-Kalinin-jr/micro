@@ -39,9 +39,16 @@ filldb:
 up:
 	-docker-compose up
 
+upfirsttime:
+	-docker build -t react_builder ./react_service
+	-docker run -it --rm -v $(PWD)/react_service:/app:rw react_builder npx create-react-app my_react_app
+	-cp ./react_service/to_copy/* ./react_service/my_react_app/
+	-docker-compose up
+
+
 down:
 	-docker-compose down
 
 
-	
+
 

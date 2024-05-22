@@ -1,11 +1,12 @@
-#DEVELOPMENT STAGE
 FROM node:20
 RUN mkdir /app
-WORKDIR /app
-COPY package*.json ./
+WORKDIR /app/
 
-RUN npm install
-RUN npm install react-router-dom
+COPY package.json .
+COPY package-lock.json .
+RUN npm install --legacy-peer-deps
+
+COPY . /app
 
 EXPOSE 3000
 CMD ["npm", "start"]
