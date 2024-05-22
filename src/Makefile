@@ -40,10 +40,9 @@ up:
 	-docker-compose up
 
 upfirsttime:
-	-docker build -t react_builder ./react_service
-	-docker run -it --rm -v $(PWD)/react_service:/app:rw react_builder npx create-react-app my_react_app
-	-cp ./react_service/to_copy/* ./react_service/my_react_app/
-	-docker-compose up
+	docker build --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g) -t react_builder ./react_service
+	docker run --rm -v $(PWD)/react_service:/app:rw react_builder
+	docker-compose up
 
 
 down:
